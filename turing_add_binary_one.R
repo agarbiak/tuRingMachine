@@ -1,5 +1,5 @@
-# User selected input to perform addition ---------------------------------
-input <- 11111
+# User selected binary input to perform addition ---------------------------------
+input <- 111110111
 
 # Enter user input onto the tape ------------------------------------------
 input <- c(
