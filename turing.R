@@ -1,5 +1,17 @@
-input <- 10010100111
+# User selected input to perform addition ---------------------------------
+input <- 11111
 
+# Enter user input onto the tape ------------------------------------------
+input <- c(
+  -2, # Pre-tape input
+  as.numeric(
+    strsplit(as.character(input), split="")[[1]]
+  ),
+  -1 # End of tape input
+)
+initial_input <- input
+
+# TM instructions ---------------------------------------------------------
 states <- c(0,0,0,0,1,1,1)
 newstates <- c(0,0,0,1,2,1,2) # State 2 = Halt
 head_values <- c(-2,0,1,-1,0,1,-2) # Head value of -2 = Pre-tape input, -1 = End of tape input
@@ -14,15 +26,7 @@ instruction_set <- data.frame(
   print_to_tape = print_values
 )
 
-input <- c(
-  -2, # Pre-tape input
-  as.numeric(
-    strsplit(as.character(input), "")[[1]]
-  ),
-  -1 # End of tape input
-)
-initial_input <- input
-
+# TM initialisation -------------------------------------------------------
 tape_moves <- 100
 current_state <- 0
 tape_position <- 1
@@ -34,6 +38,7 @@ tape_log <- data.frame(
   headValue = integer()
 )
 
+# Run the machine ---------------------------------------------------------
 for(i in 1:tape_moves) {
   
   num_of_moves <- i
@@ -69,34 +74,47 @@ for(i in 1:tape_moves) {
   tape_log <- rbind(tape_log, add_to_log)
 
   if (current_state == 2) {
-    final_input <- input
-    print("Moved into State 2")
-    return(final_input)
+    return(input)
     break
   }
 }
 
-tape_initial <- paste(
-  tail(head(initial_input,-1),-1), collapse = ""
-)
+# Output final tape -------------------------------------------------------
 
-tape_final <- 
-  if (head(final_input, 1) == -2) {
-    paste(
-      tail(head(final_input,-1), -1), collapse = ""
+if (tape_log[dim(tape_log)[1], "stateNum"] != 2) {
+  print(
+    paste0(
+      "Turing machine halted prematurely after ",
+      paste0(tape_moves, collapse = ""),
+      " moves with the given input: ",
+      paste0(tail(head(initial_input,-1), -1), collapse = "")
     )
-  } else {
-    paste(
-      head(final_input,-1), collapse = ""
-    ) 
-  }
+  )
+} else {
+
+  tape_initial <- paste(
+    tail(head(initial_input,-1),-1), collapse = ""
+  )
   
-print(paste0(
-  "We started with: ",
-  tape_initial,
-  ", and ended with: ",
-  tape_final,
-  " and it took ",
-  dim(tape_log)[1],
-  " moves to add (binary) 1 to our inital tape"
-))
+  tape_final <- 
+    if (head(input, 1) == -2) {
+      paste(
+        tail(head(input,-1), -1), collapse = ""
+      )
+    } else {
+      paste(
+        head(input,-1), collapse = ""
+      ) 
+    }
+  
+  print(paste0(
+    "We started with ",
+    tape_initial,
+    ", and ended with ",
+    tape_final,
+    " and it took ",
+    dim(tape_log)[1],
+    " moves to add (binary) 1 to our initial tape"
+  ))
+  
+}
