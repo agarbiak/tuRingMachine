@@ -80,7 +80,6 @@ for(i in 1:tape_moves) {
 }
 
 # Output final tape -------------------------------------------------------
-
 if (tape_log[dim(tape_log)[1], "stateNum"] != 2) {
   print(
     paste0(
