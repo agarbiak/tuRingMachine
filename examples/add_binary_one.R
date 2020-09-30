@@ -44,7 +44,7 @@ if (output$status == "Accepted") {
         output$output,
         " and it took ",
         output$moves,
-        " moves to add (binary) 1 to our initial tape"
+        " moves to add 1 (in binary) given our initial tape"
       ))
 } else if (output$status == "Rejected") {
   print(

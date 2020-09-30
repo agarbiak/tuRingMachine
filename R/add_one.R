@@ -43,7 +43,7 @@ binary_add_one <- function(input, blank_symbol = "_", instruction_set, initial_s
     
     if (current_state == final_state) {
       output <- as.numeric(
-        paste(tail(head(input,-1),-1), collapse = "")
+        paste(input[!input %in% blank_symbol], collapse = "")
       )
       return(data.frame(
         input = initial_input,
@@ -56,9 +56,13 @@ binary_add_one <- function(input, blank_symbol = "_", instruction_set, initial_s
     }
   }
   
+  output <- as.numeric(
+    paste(input[!input %in% blank_symbol], collapse = "")
+  )
+  
   return(data.frame(
    input = initial_input,
-   output = NULL,
+   output = output,
    status = "Rejected",
    moves = num_of_moves
   ))
