@@ -1,4 +1,4 @@
-binary_add_one <- function(input, blank_symbol = "_", instruction_set, initial_state, final_state, tape_moves = 100) {
+binary_add_one <- function(input, blank_symbol, instruction_set, initial_state, final_state, tape_moves = 999) {
 
   initial_input <- input
   input <- c(

@@ -34,7 +34,7 @@ _Where:_
 Any **TuRingMachine** in this repo is initialised as:
 
 ```
-function_name(input, blank_symbol = "_", instruction_set, initial_state, final_state, tape_moves = 100)
+function_name(input, blank_symbol, instruction_set, initial_state, final_state, tape_moves = 999)
 ```
 
 _Where:_
