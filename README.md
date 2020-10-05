@@ -61,7 +61,7 @@ There are two types of **tuRingMachine** functions for each type of operation:
 - _status_ providing a binary outcome `"Accepted"` or `"Rejected"`
 - _moves_, as an `integer`, being the number of times the tape was moved by the _TM_
 
-1. The equivalent function with `_log` appended to the function name will output a `data.frame` with the following columns:
+2. The equivalent function with `_log` appended to the function name will output a `data.frame` with the following columns:
 
 - _input_ as an `atomic vector`
 - _current_state_ for each tape move from the _instruction_set_
