@@ -1,55 +1,45 @@
 # Background --------------------------------------------------------------
-# TM Purpose: Calculate gcd(x, y) with x, y specified in the unary numeral system 
+# TM Purpose: Calculate x * 2 with x specified in the unary numeral system 
 # Input requirement:
 #' @param x An unary number.
-#' @param y An unary number.
-#' @return The gcd of \code{x} and \code{y}
+#' @return x * 2
 # Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines", ISBN 0-19-286198-0
 
 # User selected unary input -----------------------------------------------
-unary_one <- 111111 # 6
-unary_two <- 111111111111 # 12
+input <- 1111 # 4
 
 # TM instructions ---------------------------------------------------------
 blank_symbol <- 0
-input <- paste0(
-  unary_one,
-  blank_symbol, # separator
-  unary_two
-)
-instruction_set <- read.csv("data/UN_EUC.csv")
+instruction_set <- read.csv("data/UN_MultiplyTwo.csv")
 
 # Run TM ------------------------------------------------------------------
-source("R/UN_gcd.R")
+source("R/UN_x2.R")
 
-# Determine gcd(6, 12)
-output <- UN_gcd(
+# Determine 4 * 2
+output <- UN_x2(
   input = input,
-  blank_symbol = blank_symbol,
+  blank_symbol = 0,
   instruction_set = instruction_set,
   initial_state = 0,
   final_state = -1,
-  tape_moves = 999
+  tape_moves = 1000
 )
 
 # Log the TM internals
-output_log <- UN_gcd_log(
+output_log <- UN_x2_log(
   input = input,
-  blank_symbol = blank_symbol,
+  blank_symbol = 0,
   instruction_set = instruction_set,
   initial_state = 0,
   final_state = -1,
-  tape_moves = 999
+  tape_moves = 1000
 )
 
 # Results -----------------------------------------------------------------
 if (output$status == "Accepted") {
   print(paste0(
-    "The gcd of (",
-    unary_one,
-    ", ",
-    unary_two,
-    ") is ",
+    input,
+    " x 2 = ",
     output$output,
     "."
   ))

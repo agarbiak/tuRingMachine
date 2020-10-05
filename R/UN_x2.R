@@ -1,4 +1,4 @@
-UN_gcd_log <- function(
+UN_x2_log <- function(
   input, 
   blank_symbol,
   instruction_set, 
@@ -9,6 +9,39 @@ UN_gcd_log <- function(
 
   initial_input <- input
   input <- strsplit(as.character(input), split="")[[1]]
+  tape_language <- unique(instruction_set$tape_symbol)
+  
+  # Ensure input symbols match tape_language
+  if (
+    sum(!(input %in% tape_language)) > 0
+  ) {
+    unrecognised_symbols <- unique(input[!(input %in% tape_language)])
+    stop(
+      paste0(
+        "Input contains symbols that are not specified in the instruction set.",
+        "The unrecognised symbols are: ",
+        paste(unrecognised_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  # Ensure input is correctly specified for UN_ function
+  if (
+    sum(input %in% "1") != length(input)
+  ) {
+    invalid_symbols <- unique(
+      input[!(input %in% "1")]
+    )
+    stop(
+      paste0(
+        "Input contains non-unary symbols. UN_ functions require unary inputs.",
+        "The invalid symbols are: ",
+        paste(invalid_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
   
   tape_position <- 1
   
@@ -93,7 +126,7 @@ UN_gcd_log <- function(
   
 }
 
-UN_gcd <- function(
+UN_x2 <- function(
   input, 
   blank_symbol, 
   instruction_set, 
@@ -104,6 +137,40 @@ UN_gcd <- function(
   
   initial_input <- input
   input <- strsplit(as.character(input), split="")[[1]]
+  tape_language <- unique(instruction_set$tape_symbol)
+  
+  # Ensure input symbols match tape_language
+  if (
+    sum(!(input %in% tape_language)) > 0
+  ) {
+    unrecognised_symbols <- unique(input[!(input %in% tape_language)])
+    stop(
+      paste0(
+        "Input contains symbols that are not specified in the instruction set.",
+        "The unrecognised symbols are: ",
+        paste(unrecognised_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  # Ensure input is correctly specified for UN_ function
+  if (
+    sum(input %in% "1") != length(input)
+  ) {
+    invalid_symbols <- unique(
+      input[!(input %in% "1")]
+    )
+    stop(
+      paste0(
+        "Input contains non-unary symbols. UN_ functions require unary inputs.",
+        "The invalid symbols are: ",
+        paste(invalid_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
   tape_position <- 1
   current_state <- initial_state
   

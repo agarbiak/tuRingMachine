@@ -1,4 +1,4 @@
-UN_gcd_log <- function(
+XN_x2_log <- function(
   input, 
   blank_symbol,
   instruction_set, 
@@ -9,7 +9,47 @@ UN_gcd_log <- function(
 
   initial_input <- input
   input <- strsplit(as.character(input), split="")[[1]]
+  tape_language <- unique(instruction_set$tape_symbol)
   
+  # Ensure input symbols match tape_language
+  if (
+    sum(!(input %in% tape_language)) > 0
+  ) {
+    unrecognised_symbols <- unique(input[!(input %in% tape_language)])
+    stop(
+      paste0(
+        "Input contains symbols that are not specified in the instruction set. ",
+        "The unrecognised symbols are: ",
+        paste(unrecognised_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  # Ensure input is correctly specified for a XN_ function
+  if (
+    sum(input %in% c("0","1")) != length(input)
+  ) {
+    invalid_symbols <- unique(
+      input[!(input %in% c("0","1"))]
+    )
+    stop(
+      paste0(
+        "Input contains non-binary symbols. XN_ functions require binary inputs. ",
+        "The invalid symbols are: ",
+        paste(invalid_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  # Encode input as expanded binary
+  # 0 -> 0
+  # 1 -> 10
+  # , -> 110
+  input <- strsplit(gsub("1", "10", initial_input), split="")[[1]]
+  input <- c(input, "1","1","0")
+
   tape_position <- 1
   
   tape_log <- data.frame(
@@ -61,12 +101,6 @@ UN_gcd_log <- function(
       input <- c(input, blank_symbol)
     }
     
-    # Halt on reaching final state
-    if (current_state == final_state) {
-      status <- "Accept"
-      break
-    }
-    
     # Track TM internals
     tape_add <- data.frame(
       input = paste0(input, collapse = ""),
@@ -79,6 +113,12 @@ UN_gcd_log <- function(
       tape_log,
       tape_add
     )
+
+    # Halt on reaching final state
+    if (current_state == final_state) {
+      status <- "Accept"
+      break
+    }
   }
   
   # Return accepted result
@@ -90,10 +130,9 @@ UN_gcd_log <- function(
     message("TM rejected input")
     return(tape_log)
   }
-  
 }
 
-UN_gcd <- function(
+XN_x2 <- function(
   input, 
   blank_symbol, 
   instruction_set, 
@@ -104,6 +143,45 @@ UN_gcd <- function(
   
   initial_input <- input
   input <- strsplit(as.character(input), split="")[[1]]
+  tape_language <- unique(instruction_set$tape_symbol)
+  
+  # Ensure input symbols match tape_language
+  if (
+    sum(!(input %in% tape_language)) > 0
+  ) {
+    unrecognised_symbols <- unique(input[!(input %in% tape_language)])
+    stop(
+      paste0(
+        "Input contains symbols that are not specified in the instruction set. ",
+        "The unrecognised symbols are: ",
+        paste(unrecognised_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  # Ensure input is correctly specified for a XN_ function
+  if (
+    sum(input %in% c("0","1")) != length(input)
+  ) {
+    invalid_symbols <- unique(input[!(input %in% "1")])
+    stop(
+      paste0(
+        "Input contains non-binary symbols. XN_ functions require binary inputs. ",
+        "The invalid symbols are: ",
+        paste(invalid_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  # Encode input as expanded binary
+  # 0 -> 0
+  # 1 -> 10
+  # , -> 110
+  input <- strsplit(gsub("1", "10", initial_input), split="")[[1]]
+  input <- c(input, "1", "1", "0")
+
   tape_position <- 1
   current_state <- initial_state
   
@@ -150,9 +228,27 @@ UN_gcd <- function(
     # Halt on reaching final state
     if (current_state == final_state) {
       status <- "Accept"
-      output <- as.numeric(
-        paste(input[!input %in% blank_symbol], collapse = "")
+      
+      # Contract input into binary
+      # 0 -> 0
+      # 10 -> 1
+      # , == 110 -> blank
+
+      output <- paste0(input, collapse = "")
+      
+      locate_comma <- unlist(
+        gregexpr("110", output)
       )
+      
+      output <- paste0(
+        input[1:(locate_comma - 1)],
+        collapse = ""
+      )
+      
+      output <- as.numeric(
+        gsub("10", "1", output)
+      )
+      
       tm_result <- data.frame(
         input = initial_input,
         output = output,

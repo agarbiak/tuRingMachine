@@ -1,4 +1,4 @@
-# (Deterministic) Turing Machines in R
+# Turing Machines in R
 
 ## Specification
 
@@ -39,7 +39,7 @@ function_name(input, blank_symbol, instruction_set, initial_state, final_state, 
 
 _Where:_
 
-- _function_name_ is a **tuRingMachine** `function` within the [`/R directory`](https://github.com/agarbiak/tuRingMachine/tree/master/R)
+- _function_name_ is a **tuRingMachine** `function` within [`/R`](https://github.com/agarbiak/tuRingMachine/tree/master/R)
 - _input_ is an `atomic vector`
 - _instruction_set_ is a `data.frame` that has the following column entries:
   - _current_state_
@@ -52,16 +52,33 @@ Here the _instruction_set_ is used by the _TM_ as the transition function.
 
 ## Output
 
-Any **tuRingMachine** `function` will output a `data.frame` with the following columns:
+There are two types of **tuRingMachine** functions for each type of operation:
+
+1. The base function will output a `data.frame` with the following columns:
 
 - _input_ as an `atomic vector`
 - _output_ as an `atomic vector`
 - _status_ providing a binary outcome `"Accepted"` or `"Rejected"`
-- _moves_, as an `integer`, being the number of times the tape was moved by the Turing machine
+- _moves_, as an `integer`, being the number of times the tape was moved by the _TM_
+
+1. The equivalent function with `_log` appended to the function name will output a `data.frame` with the following columns:
+
+- _input_ as an `atomic vector`
+- _current_state_ for each tape move from the _instruction_set_
+- _tape_symbol_ as the current tape symbol read by the _TM_ for each tape move
+- _tape_position_ as the position along the _input_ that the _TM_ is for each tape move
+
+This allows you to track the internals of the _TM_.
 
 ## Usage
 
-Examples of using a **turRingMachine** `function` is given in the [`/examples directory`](https://github.com/agarbiak/tuRingMachine/tree/master/examples).
+Examples of using a **turRingMachine** `function` is given in [`/examples`](https://github.com/agarbiak/tuRingMachine/tree/master/examples).
+
+Pre-configured instruction sets are given in [`/data`](https://github.com/agarbiak/tuRingMachine/tree/master/data).
+
+## Acknowledgement
+
+A number of the **turRingMachine** functions have instruction sets specified as per Chapter 2 "_Algorithms and Turing Machines_" in Roger Penrose's book "[The Emperor's New Mind](https://en.wikipedia.org/wiki/The_Emperor%27s_New_Mind)".
 
 ## License
 
