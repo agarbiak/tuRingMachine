@@ -19,5 +19,5 @@ current_state,tape_symbol,next_state,print_symbol,move_tape
 1000,1,1000,1,L
 1001,0,10,0,R
 1001,1,1,1,L
-1010,0,-1,0,L
+1010,0,0,0,H
 1010,1,1010,1,R

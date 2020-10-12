@@ -5,7 +5,7 @@ current_state,tape_symbol,next_state,print_symbol,move_tape
 1,1,10,1,R
 10,0,11,0,L
 10,1,10,1,R
-11,0,-1,1,R
+11,0,0,1,H
 11,1,100,0,L
 100,0,101,1,L
 100,1,100,1,L

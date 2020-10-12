@@ -3,7 +3,7 @@
 # Input requirement:
 #' @param x An unary number.
 #' @return x * 2
-# Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines", ISBN 0-19-286198-0
+# Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines"
 
 # User selected unary input -----------------------------------------------
 input <- 1111 # 4
@@ -20,8 +20,6 @@ output <- UN_x2(
   input = input,
   blank_symbol = 0,
   instruction_set = instruction_set,
-  initial_state = 0,
-  final_state = -1,
   tape_moves = 1000
 )
 
@@ -30,8 +28,6 @@ output_log <- UN_x2_log(
   input = input,
   blank_symbol = 0,
   instruction_set = instruction_set,
-  initial_state = 0,
-  final_state = -1,
   tape_moves = 1000
 )
 

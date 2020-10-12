@@ -2,8 +2,6 @@ UN_x2_log <- function(
   input, 
   blank_symbol,
   instruction_set, 
-  initial_state, 
-  final_state, 
   tape_moves = 999
 ) {
 
@@ -43,7 +41,16 @@ UN_x2_log <- function(
     )
   }
   
+  # Encode input as expanded binary
+  # 0 -> 0
+  # 1 -> 10
+  # , -> 110
+  # input <- strsplit(gsub("1", "10", initial_input), split="")[[1]]
+  # input <- c(input, "1","1","0")
+
+  initial_state <- 0
   tape_position <- 1
+  current_state <- initial_state
   
   tape_log <- data.frame(
     input = paste0(input, collapse = ""),
@@ -51,9 +58,7 @@ UN_x2_log <- function(
     tape_symbol = input[tape_position],
     tape_position = tape_position
   )
-  
-  current_state <- initial_state
-  
+    
   for (i in 1:tape_moves) {
     
     tape_symbol <- input[tape_position]
@@ -77,7 +82,9 @@ UN_x2_log <- function(
       1
     } else if (move_type == "L") {
       -1
-    } else break
+    } else if (move_type == "H") { 
+      0
+    } else  break
     
     input[tape_position] <- print_symbol
     tape_position <- tape_position + move_type
@@ -95,7 +102,7 @@ UN_x2_log <- function(
     }
     
     # Halt on reaching final state
-    if (current_state == final_state) {
+    if (move_type == 0) {
       status <- "Accept"
       break
     }
@@ -129,9 +136,7 @@ UN_x2_log <- function(
 UN_x2 <- function(
   input, 
   blank_symbol, 
-  instruction_set, 
-  initial_state, 
-  final_state, 
+  instruction_set,
   tape_moves = 999
 ) {
   
@@ -170,7 +175,15 @@ UN_x2 <- function(
       )
     )
   }
+
+  # Encode input as expanded binary
+  # 0 -> 0
+  # 1 -> 10
+  # , -> 110
+  # input <- strsplit(gsub("1", "10", initial_input), split="")[[1]]
+  # input <- c(input,"1", "1", "0")
   
+  initial_state <- 0
   tape_position <- 1
   current_state <- initial_state
   
@@ -197,6 +210,8 @@ UN_x2 <- function(
       1
     } else if (move_type == "L") {
       -1
+    } else if (move_type == "H") {
+      0
     } else break
     
     input[tape_position] <- print_symbol
@@ -215,7 +230,7 @@ UN_x2 <- function(
     }
     
     # Halt on reaching final state
-    if (current_state == final_state) {
+    if (move_type == 0) {
       status <- "Accept"
       output <- as.numeric(
         paste(input[!input %in% blank_symbol], collapse = "")

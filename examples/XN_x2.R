@@ -3,7 +3,7 @@
 # Input requirement:
 #' @param x A binary number.
 #' @return x * 2
-# Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines", ISBN 0-19-286198-0
+# Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines"
 
 # User selected binary input ----------------------------------------------
 input <- 1011 # 1x2^0 + 1*2^1 + 0*2^2 + 1*2^3 = 11
@@ -18,21 +18,15 @@ source("R/XN_x2.R")
 # Determine 11 * 2
 output <- XN_x2(
   input = input,
-  blank_symbol = 0,
-  instruction_set = instruction_set,
-  initial_state = 0,
-  final_state = -1,
-  tape_moves = 1000
+  blank_symbol = blank_symbol,
+  instruction_set = instruction_set
 )
 
 # Log the TM internals
 output_log <- XN_x2_log(
   input = input,
   blank_symbol = 0,
-  instruction_set = instruction_set,
-  initial_state = 0,
-  final_state = -1,
-  tape_moves = 1000
+  instruction_set = instruction_set
 )
 
 # Results -----------------------------------------------------------------

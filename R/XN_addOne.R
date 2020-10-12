@@ -1,9 +1,7 @@
 XN_addOne_log <- function(
   input, 
   blank_symbol,
-  instruction_set, 
-  initial_state, 
-  final_state, 
+  instruction_set,
   tape_moves = 999
 ) {
 
@@ -50,7 +48,9 @@ XN_addOne_log <- function(
   input <- strsplit(gsub("1", "10", initial_input), split="")[[1]]
   input <- c(input, "1","1","0")
   
+  initial_state <- 0
   tape_position <- 1
+  current_state <- initial_state
   
   tape_log <- data.frame(
     input = paste0(input, collapse = ""),
@@ -58,8 +58,6 @@ XN_addOne_log <- function(
     tape_symbol = input[tape_position],
     tape_position = tape_position
   )
-  
-  current_state <- initial_state
   
   for (i in 1:tape_moves) {
     
@@ -84,7 +82,9 @@ XN_addOne_log <- function(
       1
     } else if (move_type == "L") {
       -1
-    } else break
+    } else if (move_type == "H") { 
+      0
+    } else  break
     
     input[tape_position] <- print_symbol
     tape_position <- tape_position + move_type
@@ -115,7 +115,7 @@ XN_addOne_log <- function(
     )
     
     # Halt on reaching final state
-    if (current_state == final_state) {
+    if (move_type == 0) {
       status <- "Accept"
       break
     }
@@ -136,8 +136,6 @@ XN_addOne <- function(
   input, 
   blank_symbol, 
   instruction_set, 
-  initial_state, 
-  final_state, 
   tape_moves = 999
 ) {
   
@@ -182,6 +180,7 @@ XN_addOne <- function(
   input <- strsplit(gsub("1", "10", initial_input), split="")[[1]]
   input <- c(input,"1", "1", "0")
   
+  initial_state <- 0
   tape_position <- 1
   current_state <- initial_state
   
@@ -208,6 +207,8 @@ XN_addOne <- function(
       1
     } else if (move_type == "L") {
       -1
+    } else if (move_type == "H") {
+      0
     } else break
     
     input[tape_position] <- print_symbol
@@ -226,7 +227,7 @@ XN_addOne <- function(
     }
     
     # Halt on reaching final state
-    if (current_state == final_state) {
+    if (move_type == 0) {
       status <- "Accept"
       
       # Contract input into binary
