@@ -3,7 +3,7 @@
 # Input requirement:
 #' @param x A binary number.
 #' @return x + 1
-# Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines", ISBN 0-19-286198-0
+# Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines"
 
 # User selected binary input ----------------------------------------------
 input <- 10100111 # = 167
@@ -18,20 +18,16 @@ source("R/XN_addOne.R")
 # Determine 167 + 1
 output <- XN_addOne(
   input = input,
-  blank_symbol = 0,
+  blank_symbol = blank_symbol,
   instruction_set = instruction_set,
-  initial_state = 0,
-  final_state = -1,
   tape_moves = 1000
 )
 
 # Log the TM internals
 output_log <- XN_addOne_log(
   input = input,
-  blank_symbol = 0,
+  blank_symbol = blank_symbol,
   instruction_set = instruction_set,
-  initial_state = 0,
-  final_state = -1,
   tape_moves = 1000
 )
 

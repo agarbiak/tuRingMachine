@@ -11,10 +11,10 @@ TM := <Q, L, b, S, d, q(0), F>
 _Where:_
 
 - _Q_ is a finite, non-empty set of states;
-- _L_ is a finite, non-empty set of tape alphabet symbols;
-- _b_ (in _L_) is the blank symbol (the only symbol allowed to occur on the tape infinitely often at any step during the computation);
-- _S_ is the set of input symbols that are allowed to appear in the initial tape contents, this excludes _b_;
-- _q(0)_ (belonging to _Q_) is the initial state;
+- _L_ is the set of tape alphabet symbols: _{0, 1}_;
+- _b_ (in _L_) is the blank symbol: _{0}_ (the only symbol allowed to occur on the tape infinitely often at any step during the computation);
+- _S_ is the set of input symbols that are allowed to appear in the initial tape contents: _{0, 1}_;
+- _q(0)_ (belonging to _Q_) is the initial state: _{0}_;
 - _F_ (subset of _Q_) is the set of final states or accepting states. The initial tape contents is said to be accepted by _TM_ if it eventually halts in a state from _F_.
 - _d_ is the transition function, which takes as inputs:
 
@@ -29,12 +29,20 @@ _Where:_
     - "_L_" (i.e. move the tape head one position to the left), and
     - "_R_" (i.e. move right)
 
+Specifically the Turing machine instructions are encoded using Penrose's schema:
+
+- _0_ for `0`
+- _10_ for `1`
+- _110_ for `R`, move the tape right
+- _1110_ for `L`, move the tape left
+- _11110_ for `H`, the halting move 
+
 ## Initialisation
 
 Any **TuRingMachine** in this repo is initialised as:
 
 ```
-function_name(input, blank_symbol, instruction_set, initial_state, final_state, tape_moves = 999)
+function_name(input, blank_symbol, instruction_set, tape_moves = 999)
 ```
 
 _Where:_
@@ -76,9 +84,13 @@ Examples of using a **turRingMachine** `function` is given in [`/examples`](http
 
 Pre-configured instruction sets are given in [`/data`](https://github.com/agarbiak/tuRingMachine/tree/master/data).
 
+Using Penrose's schema we find that the Turing machine that adds one in binary ("_XN + 1_") is represented by the 450,813,704,461,563,958,982,113,775,643,437,908th Turing machine, as shown in [`/examples/TuringMachines.R`](https://github.com/agarbiak/tuRingMachine/blob/master/examples/TuringMachines.R).
+
+We also find that Turing machine 177,642 (under Penrose's encoding schema) corresponds to a machine that adds one to a unary input ("_UN + 1_"), again shown in [`/examples/TuringMachines.R`](https://github.com/agarbiak/tuRingMachine/blob/master/examples/TuringMachines.R).
+
 ## Acknowledgement
 
-A number of the **turRingMachine** functions have instruction sets specified as per Chapter 2 "_Algorithms and Turing Machines_" in Roger Penrose's book "[The Emperor's New Mind](https://en.wikipedia.org/wiki/The_Emperor%27s_New_Mind)".
+This repo is an `R` implementation of the Turing machines specified in Chapter 2 "_Algorithms and Turing Machines_" in Roger Penrose's book "[The Emperor's New Mind](https://en.wikipedia.org/wiki/The_Emperor%27s_New_Mind)".
 
 ## License
 

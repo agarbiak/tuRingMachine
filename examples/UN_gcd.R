@@ -4,11 +4,11 @@
 #' @param x An unary number.
 #' @param y An unary number.
 #' @return The gcd of \code{x} and \code{y}
-# Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines", ISBN 0-19-286198-0
+# Source: The Emperor's New Mind, Roger Penrose, Chapter 2 "Algorithms and Turing Machines"
 
 # User selected unary input -----------------------------------------------
 unary_one <- 111111 # 6
-unary_two <- 111111111111 # 12
+unary_two <- 11111111 # 8
 
 # TM instructions ---------------------------------------------------------
 blank_symbol <- 0
@@ -26,20 +26,14 @@ source("R/UN_gcd.R")
 output <- UN_gcd(
   input = input,
   blank_symbol = blank_symbol,
-  instruction_set = instruction_set,
-  initial_state = 0,
-  final_state = -1,
-  tape_moves = 999
+  instruction_set = instruction_set
 )
 
 # Log the TM internals
 output_log <- UN_gcd_log(
   input = input,
   blank_symbol = blank_symbol,
-  instruction_set = instruction_set,
-  initial_state = 0,
-  final_state = -1,
-  tape_moves = 999
+  instruction_set = instruction_set
 )
 
 # Results -----------------------------------------------------------------

@@ -2,15 +2,48 @@ UN_gcd_log <- function(
   input, 
   blank_symbol,
   instruction_set, 
-  initial_state, 
-  final_state, 
   tape_moves = 999
 ) {
 
   initial_input <- input
   input <- strsplit(as.character(input), split="")[[1]]
+  tape_language <- unique(instruction_set$tape_symbol)
   
+  # Ensure input symbols match tape_language
+  if (
+    sum(!(input %in% tape_language)) > 0
+  ) {
+    unrecognised_symbols <- unique(input[!(input %in% tape_language)])
+    stop(
+      paste0(
+        "Input contains symbols that are not specified in the instruction set. ",
+        "The unrecognised symbols are: ",
+        paste(unrecognised_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  # Ensure input is correctly specified for a UN_ function
+  if (
+    sum(input %in% "1") != length(input) - 1
+  ) {
+    invalid_symbols <- unique(
+      input[!(input %in% "1")]
+    )
+    stop(
+      paste0(
+        "Input contains non-unary symbols. UN_ functions require unary ('1') inputs. ",
+        "The invalid symbols are: ",
+        paste(invalid_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  initial_state <- 0
   tape_position <- 1
+  current_state <- initial_state
   
   tape_log <- data.frame(
     input = paste0(input, collapse = ""),
@@ -18,8 +51,6 @@ UN_gcd_log <- function(
     tape_symbol = input[tape_position],
     tape_position = tape_position
   )
-  
-  current_state <- initial_state
   
   for (i in 1:tape_moves) {
     
@@ -44,7 +75,9 @@ UN_gcd_log <- function(
       1
     } else if (move_type == "L") {
       -1
-    } else break
+    } else if (move_type == "H") { 
+      0
+    } else  break
     
     input[tape_position] <- print_symbol
     tape_position <- tape_position + move_type
@@ -61,12 +94,6 @@ UN_gcd_log <- function(
       input <- c(input, blank_symbol)
     }
     
-    # Halt on reaching final state
-    if (current_state == final_state) {
-      status <- "Accept"
-      break
-    }
-    
     # Track TM internals
     tape_add <- data.frame(
       input = paste0(input, collapse = ""),
@@ -79,6 +106,12 @@ UN_gcd_log <- function(
       tape_log,
       tape_add
     )
+    
+    # Halt on reaching final state
+    if (move_type == 0) {
+      status <- "Accept"
+      break
+    }
   }
   
   # Return accepted result
@@ -96,14 +129,48 @@ UN_gcd_log <- function(
 UN_gcd <- function(
   input, 
   blank_symbol, 
-  instruction_set, 
-  initial_state, 
-  final_state, 
+  instruction_set,
   tape_moves = 999
 ) {
   
   initial_input <- input
   input <- strsplit(as.character(input), split="")[[1]]
+  
+  tape_language <- unique(instruction_set$tape_symbol)
+  
+  # Ensure input symbols match tape_language
+  if (
+    sum(!(input %in% tape_language)) > 0
+  ) {
+    unrecognised_symbols <- unique(input[!(input %in% tape_language)])
+    stop(
+      paste0(
+        "Input contains symbols that are not specified in the instruction set. ",
+        "The unrecognised symbols are: ",
+        paste(unrecognised_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  # Ensure input is correctly specified for a UN_ function
+  if (
+    sum(input %in% "1") != length(input) - 1
+  ) {
+    invalid_symbols <- unique(
+      input[!(input %in% "1")]
+    )
+    stop(
+      paste0(
+        "Input contains non-unary symbols. UN_ functions require unary ('1') inputs. ",
+        "The invalid symbols are: ",
+        paste(invalid_symbols, collapse = ", "),
+        "."
+      )
+    )
+  }
+  
+  initial_state <- 0
   tape_position <- 1
   current_state <- initial_state
   
@@ -130,6 +197,8 @@ UN_gcd <- function(
       1
     } else if (move_type == "L") {
       -1
+    } else if (move_type == "H") {
+      0
     } else break
     
     input[tape_position] <- print_symbol
@@ -148,7 +217,7 @@ UN_gcd <- function(
     }
     
     # Halt on reaching final state
-    if (current_state == final_state) {
+    if (move_type == 0) {
       status <- "Accept"
       output <- as.numeric(
         paste(input[!input %in% blank_symbol], collapse = "")

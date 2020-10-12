@@ -4,4 +4,6 @@ current_state,tape_symbol,next_state,print_symbol,move_tape
 1,0,0,1,R
 1,1,10,0,R
 10,0,11,1,R
-11,0,-1,1,R
+10,1,0,1,R
+11,0,0,1,H
+11,1,0,1,R
